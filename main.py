@@ -6,13 +6,17 @@ breakTime = 5
 
 
 def countdown(t):
-    print('Timer running: {0} minutes'.format(t / 60))
-    while t:
-        minute, secs = divmod(t, 60)
-        timer = '{:02d}:{:02d}'.format(minute, secs)
-        print('\r', timer, end='')
-        time.sleep(1)
-        t -= 1
+    print('Timer running: {0} minutes\nPress Ctrl + C for pause!'.format(t / 60))
+    t -= 1
+    while t > -1:
+        try:
+            minute, secs = divmod(t, 60)
+            timer = '{:02d}:{:02d}'.format(minute, secs)
+            print('\r', timer, end=' remaining')
+            time.sleep(1)
+            t -= 1
+        except KeyboardInterrupt:
+            input('\nPlease press enter to continue')
     print("\n")
 
 
