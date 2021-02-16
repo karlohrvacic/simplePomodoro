@@ -2,7 +2,10 @@ from win10toast import ToastNotifier
 import time
 
 workTime = 25
-breakTime = 5
+smallBreakTime = 5
+bigBreakTime = 15
+toastDuration = 5
+
 
 
 def countdown(t):
@@ -20,10 +23,10 @@ def countdown(t):
     print("\n")
 
 
-def show_toaster(cycle, cycles, status, time_left, toast_duration, title_text):
+def show_toaster(cycle, cycles, status, time_left, title_text):
     title = '{0}/{1} {2} timer {3}!'.format(cycle, cycles, status, title_text)
     message = 'You have {0} minutes of {1} time'.format(time_left, status)
-    ToastNotifier().show_toast(title, message, None, toast_duration)
+    ToastNotifier().show_toast(title, message, None, toastDuration)
 
 
 def get_input(text):
@@ -40,14 +43,20 @@ def get_input(text):
 cycleNumber = get_input("Enter number of cycles: ")
 workTime = get_input('Enter work time (default: {0}): '.format(workTime))
 if cycleNumber > 1:
-    breakTime = get_input('Enter break time (default: {0}): '.format(breakTime))
+    smallBreakTime = get_input('Enter break time (default: {0}): '.format(smallBreakTime))
+if cycleNumber > 4:
+    bigBreakTime = get_input('Enter big break time (default: {0}): '.format(bigBreakTime))
 
 for cycleNo in range(1, cycleNumber + 1):
     print('Starting cycle {0}/{1}' .format(cycleNo, cycleNumber))
-    show_toaster(cycleNo, cycleNumber, "work", workTime, 10, "has started")
+    show_toaster(cycleNo, cycleNumber, "work", workTime, "has started")
     countdown(workTime * 60)
     if cycleNo != cycleNumber:
-        show_toaster(cycleNo, cycleNumber, "break", breakTime, 10, "has started")
-        countdown(breakTime * 60)
+        if cycleNo % 4 != 0:
+            show_toaster(cycleNo, cycleNumber, "break", smallBreakTime, "has started")
+            countdown(smallBreakTime * 60)
+        elif cycleNo % 4 == 0:
+            show_toaster(cycleNo, cycleNumber, "big break", bigBreakTime, "has started")
+            countdown(bigBreakTime * 60)
 
 ToastNotifier().show_toast("Done", "Pomodoro timer is done", None, 10)
