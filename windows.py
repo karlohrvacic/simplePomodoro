@@ -1,6 +1,5 @@
 from win10toast import ToastNotifier
 import time
-import PySimpleGUI as sg
 
 
 def countdown(t):
@@ -40,8 +39,6 @@ def main():
     smallBreakTime = 5
     bigBreakTime = 15
     toastDuration = 5
-
-    sg.Window(title="Hello World", layout=[[]], margins=(100, 50)).read()
 
     cycleNumber = get_input("Enter number of cycles: ")
     workTime = get_input('Enter work time (default: {0}): '.format(workTime))
